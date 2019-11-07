@@ -7,7 +7,11 @@ export default class BD {
     static AgregarProducto(producto : Producto) : boolean {
         let result : boolean = true;
         MongoClient.connect(url, (err : any, db : any) => {
-            let dbo = db.db("productos");
+            let dbo = db.db("tp11");
+            dbo.collection("productos").insertOne(producto, () => {
+                db.close();
+                result = true;
+            });
         });
         return result;
     }
