@@ -1,23 +1,28 @@
 import Producto from "../model/producto";
+import { Resultado } from "../model/resultado";
 
-class ProductoDAO {
-    static AgregarProducto(producto : Producto) {
+export default class ProductoDAO {
+    static AgregarProducto(producto : Producto) : Resultado {
+        let result : Resultado = Resultado.Exito;
+        return result;
+    }
+
+    static ModificarProducto(producto : Producto, nombreViejo : string) : Resultado {
+        let result : Resultado = Resultado.Exito;
+        return result;
+    }
+
+    static EliminarProducto(nombre : string) : void {
 
     }
 
-    static ModificarProducto(producto : Producto, nuevoNombre : string) {
-
+    static ObtenerProducto(nombre : string) : Producto | null {
+        let producto : Producto | null = null;
+        return producto;
     }
 
-    static EliminarProducto(nombre : string) {
-
-    }
-
-    static ObtenerProducto(nombre : string) {
-
-    }
-
-    static ObtenerTodos() {
-
+    static ObtenerTodos() : Producto[] {
+        let productos : Producto[] = []; 
+        return productos;
     }
 }

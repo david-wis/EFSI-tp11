@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 var routes = require('./api/productosRoutes');
 routes(app);
 
-app.listen(port);
+app.listen(port, () => {
+    console.log('API starteada en: ' + port);
+});
 
-console.log('API starteada en: ' + port);
