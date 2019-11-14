@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose = require("mongoose");
 const uri: string = "mongodb://127.0.0.1:27017/tp11";
 
-mongoose.connect({useNewUrlParser: true}, uri, (err: any) => {
+mongoose.connect(uri, {useNewUrlParser: true}, (err: any) => {
   if (err) {
     console.log(err.message);
   } else {

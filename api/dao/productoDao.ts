@@ -82,11 +82,9 @@ export default class ProductoDAO {
         return producto;
     }
 
-    static async ObtenerTodos() {
-        let productos : IProducto[] = [];
-        await BD.ObtenerTodos().then((prods) => {
-            productos = prods;
-        }); 
-        return productos;
+    static ObtenerTodos() {
+        //let productos : IProducto[] = [];
+        let promesaProds = BD.ObtenerTodos();
+        return promesaProds;
     }
 }

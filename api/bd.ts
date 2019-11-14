@@ -1,14 +1,13 @@
 import Producto, { IProducto } from "./model/producto";
 import { Resultado } from "./model/resultado";
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/tp11";  
 
 export default class BD {
-    static async AgregarProducto(producto : IProducto) {
+    static AgregarProducto(producto : IProducto) {
         let result : boolean = true;
-        await Producto.find({nombre: producto.nombre}, (err : any, productoRepetido : IProducto) => {
+        Producto.find({nombre: producto.nombre}, (err : any, productoRepetido : IProducto) => {
             if (!err && productoRepetido == null) {
-                Producto.insert
+                let esquemita = new Producto({producto});
+                esquemita.save();
             }
         });
         return result;
@@ -43,9 +42,7 @@ export default class BD {
 
     static async ObtenerTodos() {
         let productos : IProducto[] = [];
-        await Producto.find((err : any, prods : IProducto[]) => {
-            productos = prods;
-        });
+        productos = await Producto.find();
         return productos;
     }
 }

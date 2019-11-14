@@ -41,29 +41,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var producto_1 = __importDefault(require("./model/producto"));
 var resultado_1 = require("./model/resultado");
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/tp11";
 var BD = /** @class */ (function () {
     function BD() {
     }
     BD.AgregarProducto = function (producto) {
-        return __awaiter(this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        result = true;
-                        return [4 /*yield*/, producto_1.default.find({ nombre: producto.nombre }, function (err, productoRepetido) {
-                                if (!err && productoRepetido == null) {
-                                    producto_1.default.insert();
-                                }
-                            })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, result];
-                }
-            });
+        var result = true;
+        producto_1.default.find({ nombre: producto.nombre }, function (err, productoRepetido) {
+            if (!err && productoRepetido == null) {
+                var esquemita = new producto_1.default({ producto: producto });
+                esquemita.save();
+            }
         });
+        return result;
     };
     BD.ModificarProducto = function (producto, nombreViejo) {
         var result = resultado_1.Resultado.Exito;
@@ -96,11 +85,9 @@ var BD = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         productos = [];
-                        return [4 /*yield*/, producto_1.default.find(function (err, prods) {
-                                productos = prods;
-                            })];
+                        return [4 /*yield*/, producto_1.default.find()];
                     case 1:
-                        _a.sent();
+                        productos = _a.sent();
                         return [2 /*return*/, productos];
                 }
             });

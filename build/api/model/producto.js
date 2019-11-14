@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
 var uri = "mongodb://127.0.0.1:27017/tp11";
-mongoose.connect({ useNewUrlParser: true }, uri, function (err) {
+mongoose.connect(uri, { useNewUrlParser: true }, function (err) {
     if (err) {
         console.log(err.message);
     }
