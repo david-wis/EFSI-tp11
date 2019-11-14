@@ -1,10 +1,10 @@
-import Producto from "../model/producto";
+import Producto, { IProducto } from "../model/producto";
 import ProductoDAO from "../dao/productoDao";
 import {Resultado} from "../model/resultado";
 import fs from 'fs';
 
 exports.agregar = (req : any, res : any) => {
-    let producto : Producto = new Producto();
+    let producto : IProducto = new Producto();
     producto.nombre = req.body.producto.nombre;
     producto.descripcion = req.body.producto.descripcion; 
     producto.imagen = req.body.producto.imagen; 
@@ -31,7 +31,7 @@ exports.agregar = (req : any, res : any) => {
 }
 
 exports.modificar = (req : any, res : any) => {
-    let producto : Producto = new Producto();
+    let producto : IProducto = new Producto();
     let nombreViejo : string = req.body.producto.nombre;
     producto.nombre = req.body.producto.nuevoNombre;
     producto.descripcion = req.body.producto.descripcion; 
@@ -64,13 +64,14 @@ exports.eliminar = (req : any, res : any) => {
 }
 
 exports.obtenerTodos = (req : any, res : any) => {
-    let productos : Producto[] = ProductoDAO.ObtenerTodos();
-    res.send(productos);
+    ProductoDAO.ObtenerTodos().then(productos => {
+        res.send(productos);
+    });
 }
 
 exports.obtenerUno = (req : any, res : any) => {
     let nombre : string = req.body.nombre;
-    let producto : Producto | null = ProductoDAO.ObtenerProducto(nombre);
+    let producto : IProducto | null = ProductoDAO.ObtenerProducto(nombre);
     res.send(producto);
 }
 

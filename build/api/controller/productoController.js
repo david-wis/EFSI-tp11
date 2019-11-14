@@ -65,8 +65,9 @@ exports.eliminar = function (req, res) {
     productoDao_1.default.EliminarProducto(nombre);
 };
 exports.obtenerTodos = function (req, res) {
-    var productos = productoDao_1.default.ObtenerTodos();
-    res.send(productos);
+    productoDao_1.default.ObtenerTodos().then(function (productos) {
+        res.send(productos);
+    });
 };
 exports.obtenerUno = function (req, res) {
     var nombre = req.body.nombre;

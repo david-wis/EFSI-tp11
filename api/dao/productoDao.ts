@@ -1,26 +1,22 @@
-import Producto from "../model/producto";
+import { IProducto } from "../model/producto";
 import { Resultado } from "../model/resultado";
 import BD from "../bd";
 
 export default class ProductoDAO {
-    static AgregarProducto(producto : Producto) : Resultado {
+    static AgregarProducto(producto : IProducto) : Resultado {
         let result : Resultado = Resultado.Exito;
         let exito = true;
-        exito = ProductoDAO.Validar(producto.nombre);
-        exito = ProductoDAO.Validar(producto.descripcion);
+        exito = exito && ProductoDAO.Validar(producto.nombre);
+        exito = exito && ProductoDAO.Validar(producto.descripcion);
         //exito = BD.Validar(producto.imagen);
-        exito = ProductoDAO.Validar(producto.precio);
-        exito = ProductoDAO.Validar(producto.stock);
+        exito = exito && ProductoDAO.Validar(producto.precio);
+        exito = exito && ProductoDAO.Validar(producto.stock);
         if (exito) {
-            producto.convertirImgABlob();
-            if (Math.floor(producto.imagen.length/1024) < 64) {
-                if (BD.AgregarProducto(producto)){
-                    result = Resultado.Exito;
-                } else {
-                    result = Resultado.NombreRepetido;
-                }
+            //producto.convertirImgABlob();
+            if (BD.AgregarProducto(producto)){
+                result = Resultado.Exito;
             } else {
-                result = Resultado.FotoGrande;
+                result = Resultado.NombreRepetido;
             }
         } else {
             result = Resultado.Error;
@@ -48,22 +44,49 @@ export default class ProductoDAO {
         return exito;
     }
 
-    static ModificarProducto(producto : Producto, nombreViejo : string) : Resultado {
+    static ModificarProducto(producto : IProducto, nombreViejo : string) : Resultado {
         let result : Resultado = Resultado.Exito;
+        let exito = true;
+        exito = exito && ProductoDAO.Validar(producto.nombre);
+        exito = exito && ProductoDAO.Validar(producto.descripcion);
+        //exito = BD.Validar(producto.imagen);
+        exito = exito && ProductoDAO.Validar(producto.precio);
+        exito = exito && ProductoDAO.Validar(producto.stock);
+        exito = exito && ProductoDAO.Validar(nombreViejo);
+        if (exito) {
+            if (BD.ModificarProducto(producto, nombreViejo)) {
+                result = Resultado.Exito;
+            } else {
+                result = Resultado.NombreRepetido;
+            }
+        } else {
+            result = Resultado.Error;
+        }
         return result;
     }
 
-    static EliminarProducto(nombre : string) : void {
-
+    static EliminarProducto(nombre : string) : boolean {
+        let bExito = false;
+        if (ProductoDAO.Validar(nombre)) {
+            BD.EliminarProducto(nombre);
+            bExito = true;
+        }
+        return bExito;
     }
 
-    static ObtenerProducto(nombre : string) : Producto | null {
-        let producto : Producto | null = null;
+    static ObtenerProducto(nombre : string) : IProducto | null {
+        let producto : IProducto | null = null;
+        if (ProductoDAO.Validar(nombre)) {
+            producto = BD.ObtenerProducto(nombre);
+        }
         return producto;
     }
 
-    static ObtenerTodos() : Producto[] {
-        let productos : Producto[] = []; 
+    static async ObtenerTodos() {
+        let productos : IProducto[] = [];
+        await BD.ObtenerTodos().then((prods) => {
+            productos = prods;
+        }); 
         return productos;
     }
 }
