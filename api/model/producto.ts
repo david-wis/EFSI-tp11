@@ -1,4 +1,5 @@
 import mongoose = require("mongoose");
+import { Binary } from "bson";
 const uri: string = "mongodb://127.0.0.1:27017/tp11";
 
 mongoose.connect(uri, {useNewUrlParser: true}, (err: any) => {
@@ -12,7 +13,7 @@ mongoose.connect(uri, {useNewUrlParser: true}, (err: any) => {
 export interface IProducto extends mongoose.Document {
   nombre: string;
   descripcion: string;
-  imagen: any;
+  imagen: Buffer;
   precio: number;
   stock: number;
 }

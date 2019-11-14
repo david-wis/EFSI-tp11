@@ -2,12 +2,15 @@ import Producto, { IProducto } from "./model/producto";
 import { Resultado } from "./model/resultado";
 
 export default class BD {
-    static AgregarProducto(producto : IProducto) {
+    static async AgregarProducto(producto : IProducto) {
         let result : boolean = true;
-        Producto.find({nombre: producto.nombre}, (err : any, productoRepetido : IProducto) => {
-            if (!err && productoRepetido == null) {
-                let esquemita = new Producto({producto});
+        await Producto.findOne({nombre: producto.nombre}, (err : any, productoRepetido : IProducto) => {
+            if (err == null && productoRepetido == null) {
+                console.log(producto);
+                let esquemita = new Producto(producto);
                 esquemita.save();
+            } else {
+                result = false;
             }
         });
         return result;

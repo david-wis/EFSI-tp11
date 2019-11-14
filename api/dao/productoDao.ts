@@ -3,39 +3,42 @@ import { Resultado } from "../model/resultado";
 import BD from "../bd";
 
 export default class ProductoDAO {
-    static AgregarProducto(producto : IProducto) : Resultado {
+    static async AgregarProducto(producto : IProducto) {
         let result : Resultado = Resultado.Exito;
         let exito = true;
-        exito = exito && ProductoDAO.Validar(producto.nombre);
-        exito = exito && ProductoDAO.Validar(producto.descripcion);
+        exito = exito && ProductoDAO.Validar(producto.nombre, "string");
+        exito = exito && ProductoDAO.Validar(producto.descripcion, "string");
         //exito = BD.Validar(producto.imagen);
-        exito = exito && ProductoDAO.Validar(producto.precio);
-        exito = exito && ProductoDAO.Validar(producto.stock);
+        exito = exito && ProductoDAO.Validar(producto.precio, "number");
+        exito = exito && ProductoDAO.Validar(producto.stock, "number");
         if (exito) {
             //producto.convertirImgABlob();
-            if (BD.AgregarProducto(producto)){
-                result = Resultado.Exito;
-            } else {
-                result = Resultado.NombreRepetido;
-            }
+            await BD.AgregarProducto(producto).then(ok => {
+                result = ok? Resultado.Exito : Resultado.NombreRepetido;
+            });
         } else {
             result = Resultado.Error;
         }
         return result;
     }
 
-    static Validar(valor: any) : boolean {
+    static Validar(valor: any, tipoEsperado : string) : boolean {
         let exito : boolean = false;
-        switch (typeof valor) {
+        switch (tipoEsperado) {
             case "number":
-                if (valor >= 0) {
-                    exito = true;
+                if (typeof valor === "number"){
+                    console.log("se esperaba un numero y es un numero");
+                    if (valor >= 0) {
+                        exito = true;
+                    }
                 }
                 break;
             case "string":
-                if (valor.trim() !== "") {
-                    exito = true;
-                }
+                if (typeof valor === "string") {
+                    if (valor.trim() !== "") {
+                        exito = true;
+                    }
+                }                
                 break;
             default:
                 exito = true;
@@ -47,12 +50,12 @@ export default class ProductoDAO {
     static ModificarProducto(producto : IProducto, nombreViejo : string) : Resultado {
         let result : Resultado = Resultado.Exito;
         let exito = true;
-        exito = exito && ProductoDAO.Validar(producto.nombre);
-        exito = exito && ProductoDAO.Validar(producto.descripcion);
+        exito = exito && ProductoDAO.Validar(producto.nombre, "string");
+        exito = exito && ProductoDAO.Validar(producto.descripcion, "string");
         //exito = BD.Validar(producto.imagen);
-        exito = exito && ProductoDAO.Validar(producto.precio);
-        exito = exito && ProductoDAO.Validar(producto.stock);
-        exito = exito && ProductoDAO.Validar(nombreViejo);
+        exito = exito && ProductoDAO.Validar(producto.precio, "number");
+        exito = exito && ProductoDAO.Validar(producto.stock, "number");
+        exito = exito && ProductoDAO.Validar(nombreViejo, "string");
         if (exito) {
             if (BD.ModificarProducto(producto, nombreViejo)) {
                 result = Resultado.Exito;
@@ -67,7 +70,7 @@ export default class ProductoDAO {
 
     static EliminarProducto(nombre : string) : boolean {
         let bExito = false;
-        if (ProductoDAO.Validar(nombre)) {
+        if (ProductoDAO.Validar(nombre, "string")) {
             BD.EliminarProducto(nombre);
             bExito = true;
         }
@@ -76,7 +79,7 @@ export default class ProductoDAO {
 
     static ObtenerProducto(nombre : string) : IProducto | null {
         let producto : IProducto | null = null;
-        if (ProductoDAO.Validar(nombre)) {
+        if (ProductoDAO.Validar(nombre, "string")) {
             producto = BD.ObtenerProducto(nombre);
         }
         return producto;

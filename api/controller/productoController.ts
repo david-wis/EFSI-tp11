@@ -5,29 +5,28 @@ import fs from 'fs';
 
 exports.agregar = (req : any, res : any) => {
     let producto : IProducto = new Producto();
-    producto.nombre = req.body.producto.nombre;
-    producto.descripcion = req.body.producto.descripcion; 
-    producto.imagen = req.body.producto.imagen; 
-    producto.precio = req.body.producto.precio;  
-    producto.stock = req.body.producto.stock; 
-    let resultado : Resultado = ProductoDAO.AgregarProducto(producto);
-    switch(resultado){
-        case Resultado.Exito:
-            res.send({status: "success"});
-            break;
-        case Resultado.Error:
-            res.send({status: "error", msg: "El dato ingresado no es valido"});
-            break;
-        case Resultado.FotoGrande:
-            res.send({status: "error", msg: "La foto es demasiado grande"});
-            break;
-        case Resultado.NombreRepetido:
-            res.send({status: "error", msg: "El nombre ya existe"});
-            break;
-        default:
-            console.log("wtfffff");
-            break;
-    }
+    producto.nombre = req.query.nombre;
+    producto.descripcion = req.query.descripcion; 
+    producto.imagen = req.query.imagen; 
+    producto.precio = req.query.precio;  
+    producto.stock = req.query.stock; 
+    ProductoDAO.AgregarProducto(producto).then((resultado : Resultado) => {
+        console.log(resultado);
+        switch(resultado){
+            case Resultado.Exito:
+                res.send({status: "success"});
+                break;
+            case Resultado.Error:
+                res.send({status: "error", msg: "El dato ingresado no es valido"});
+                break;
+            case Resultado.NombreRepetido:
+                res.send({status: "error", msg: "El nombre ya existe"});
+                break;
+            default:
+                console.log("wtfffff");
+                break;
+        }
+    });
 }
 
 exports.modificar = (req : any, res : any) => {

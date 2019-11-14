@@ -45,14 +45,28 @@ var BD = /** @class */ (function () {
     function BD() {
     }
     BD.AgregarProducto = function (producto) {
-        var result = true;
-        producto_1.default.find({ nombre: producto.nombre }, function (err, productoRepetido) {
-            if (!err && productoRepetido == null) {
-                var esquemita = new producto_1.default({ producto: producto });
-                esquemita.save();
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        result = true;
+                        return [4 /*yield*/, producto_1.default.findOne({ nombre: producto.nombre }, function (err, productoRepetido) {
+                                if (err == null && productoRepetido == null) {
+                                    console.log(producto);
+                                    var esquemita = new producto_1.default(producto);
+                                    esquemita.save();
+                                }
+                                else {
+                                    result = false;
+                                }
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, result];
+                }
+            });
         });
-        return result;
     };
     BD.ModificarProducto = function (producto, nombreViejo) {
         var result = resultado_1.Resultado.Exito;

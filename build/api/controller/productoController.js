@@ -9,29 +9,28 @@ var resultado_1 = require("../model/resultado");
 var fs_1 = __importDefault(require("fs"));
 exports.agregar = function (req, res) {
     var producto = new producto_1.default();
-    producto.nombre = req.body.producto.nombre;
-    producto.descripcion = req.body.producto.descripcion;
-    producto.imagen = req.body.producto.imagen;
-    producto.precio = req.body.producto.precio;
-    producto.stock = req.body.producto.stock;
-    var resultado = productoDao_1.default.AgregarProducto(producto);
-    switch (resultado) {
-        case resultado_1.Resultado.Exito:
-            res.send({ status: "success" });
-            break;
-        case resultado_1.Resultado.Error:
-            res.send({ status: "error", msg: "El dato ingresado no es valido" });
-            break;
-        case resultado_1.Resultado.FotoGrande:
-            res.send({ status: "error", msg: "La foto es demasiado grande" });
-            break;
-        case resultado_1.Resultado.NombreRepetido:
-            res.send({ status: "error", msg: "El nombre ya existe" });
-            break;
-        default:
-            console.log("wtfffff");
-            break;
-    }
+    producto.nombre = req.query.nombre;
+    producto.descripcion = req.query.descripcion;
+    producto.imagen = req.query.imagen;
+    producto.precio = req.query.precio;
+    producto.stock = req.query.stock;
+    productoDao_1.default.AgregarProducto(producto).then(function (resultado) {
+        console.log(resultado);
+        switch (resultado) {
+            case resultado_1.Resultado.Exito:
+                res.send({ status: "success" });
+                break;
+            case resultado_1.Resultado.Error:
+                res.send({ status: "error", msg: "El dato ingresado no es valido" });
+                break;
+            case resultado_1.Resultado.NombreRepetido:
+                res.send({ status: "error", msg: "El nombre ya existe" });
+                break;
+            default:
+                console.log("wtfffff");
+                break;
+        }
+    });
 };
 exports.modificar = function (req, res) {
     var producto = new producto_1.default();
