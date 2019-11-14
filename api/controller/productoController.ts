@@ -31,12 +31,12 @@ exports.agregar = (req : any, res : any) => {
 
 exports.modificar = (req : any, res : any) => {
     let producto : IProducto = new Producto();
-    let nombreViejo : string = req.body.producto.nombre;
-    producto.nombre = req.body.producto.nuevoNombre;
-    producto.descripcion = req.body.producto.descripcion; 
-    producto.imagen = req.body.producto.imagen; 
-    producto.precio = req.body.producto.precio;  
-    producto.stock = req.body.producto.stock;
+    let nombreViejo : string = req.query.nombre;
+    producto.nombre = req.query.nuevoNombre;
+    producto.descripcion = req.query.descripcion; 
+    producto.imagen = req.query.imagen; 
+    producto.precio = req.query.precio;  
+    producto.stock = req.query.stock;
     let resultado : Resultado = ProductoDAO.ModificarProducto(producto, nombreViejo);
     switch(resultado){
         case Resultado.Exito:
