@@ -34,12 +34,12 @@ exports.agregar = function (req, res) {
 };
 exports.modificar = function (req, res) {
     var producto = new producto_1.default();
-    var nombreViejo = req.body.producto.nombre;
-    producto.nombre = req.body.producto.nuevoNombre;
-    producto.descripcion = req.body.producto.descripcion;
-    producto.imagen = req.body.producto.imagen;
-    producto.precio = req.body.producto.precio;
-    producto.stock = req.body.producto.stock;
+    var nombreViejo = req.query.nombre;
+    producto.nombre = req.query.nuevoNombre;
+    producto.descripcion = req.query.descripcion;
+    producto.imagen = req.query.imagen;
+    producto.precio = req.query.precio;
+    producto.stock = req.query.stock;
     var resultado = productoDao_1.default.ModificarProducto(producto, nombreViejo);
     switch (resultado) {
         case resultado_1.Resultado.Exito:
@@ -60,7 +60,7 @@ exports.modificar = function (req, res) {
     }
 };
 exports.eliminar = function (req, res) {
-    var nombre = req.body.nombre;
+    var nombre = req.query.nombre;
     productoDao_1.default.EliminarProducto(nombre);
 };
 exports.obtenerTodos = function (req, res) {
@@ -69,7 +69,7 @@ exports.obtenerTodos = function (req, res) {
     });
 };
 exports.obtenerUno = function (req, res) {
-    var nombre = req.body.nombre;
+    var nombre = req.query.nombre;
     var producto = productoDao_1.default.ObtenerProducto(nombre);
     res.send(producto);
 };

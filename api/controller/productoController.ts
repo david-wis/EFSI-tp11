@@ -58,7 +58,7 @@ exports.modificar = (req : any, res : any) => {
 }
 
 exports.eliminar = (req : any, res : any) => {
-    let nombre = req.body.nombre;
+    let nombre = req.query.nombre;
     ProductoDAO.EliminarProducto(nombre);
 }
 
@@ -69,7 +69,7 @@ exports.obtenerTodos = (req : any, res : any) => {
 }
 
 exports.obtenerUno = (req : any, res : any) => {
-    let nombre : string = req.body.nombre;
+    let nombre : string = req.query.nombre;
     let producto : IProducto | null = ProductoDAO.ObtenerProducto(nombre);
     res.send(producto);
 }
