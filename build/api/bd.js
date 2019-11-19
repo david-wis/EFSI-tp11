@@ -76,41 +76,48 @@ var BD = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         console.log("Empezo la modificacion del producto :v");
-                        return [4 /*yield*/, producto_1.default.findOne({ nombre: producto.nombre }, function (err, productoRepetido) { return __awaiter(_this, void 0, void 0, function () {
+                        return [4 /*yield*/, producto_1.default.findOne({ nombre: producto.nombre }).then(function (productoRepetido) { return __awaiter(_this, void 0, void 0, function () {
                                 var result;
+                                var _this = this;
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
                                         case 0:
                                             result = resultado_1.Resultado.Exito;
-                                            if (!(err == null && (productoRepetido == null || producto.nombre === nombreViejo))) return [3 /*break*/, 2];
-                                            return [4 /*yield*/, producto_1.default.findOne({ nombre: nombreViejo }, function (err, productoViejo) {
-                                                    if (err == null && productoViejo != null) {
-                                                        productoViejo.nombre = producto.nombre;
-                                                        productoViejo.descripcion = producto.descripcion;
-                                                        productoViejo.imagen = producto.imagen;
-                                                        productoViejo.precio = producto.precio;
-                                                        productoViejo.stock = producto.stock;
-                                                        console.log("Guardando producto", productoViejo);
-                                                        productoViejo.save();
-                                                    }
-                                                    else {
-                                                        result = resultado_1.Resultado.Error;
-                                                        console.log("Error comun");
-                                                    }
-                                                })];
+                                            if (!(productoRepetido == null || producto.nombre === nombreViejo)) return [3 /*break*/, 2];
+                                            return [4 /*yield*/, producto_1.default.findOne({ nombre: nombreViejo }).then(function () { return __awaiter(_this, void 0, void 0, function () {
+                                                    return __generator(this, function (_a) {
+                                                        return [2 /*return*/, function (productoViejo) {
+                                                                if (productoViejo != null) {
+                                                                    productoViejo.nombre = producto.nombre;
+                                                                    productoViejo.descripcion = producto.descripcion;
+                                                                    productoViejo.imagen = producto.imagen;
+                                                                    productoViejo.precio = producto.precio;
+                                                                    productoViejo.stock = producto.stock;
+                                                                    console.log("Guardando producto", productoViejo);
+                                                                    productoViejo.save();
+                                                                }
+                                                                else {
+                                                                    result = resultado_1.Resultado.Error;
+                                                                    console.log("Error comun");
+                                                                }
+                                                                return result;
+                                                            }];
+                                                    });
+                                                }); })];
                                         case 1:
                                             _a.sent();
                                             return [3 /*break*/, 3];
                                         case 2:
                                             result = resultado_1.Resultado.NombreRepetido;
                                             console.log("Error nombre repetido");
-                                            return [2 /*return*/, result];
-                                        case 3: return [2 /*return*/];
+                                            _a.label = 3;
+                                        case 3: return [2 /*return*/, result];
                                     }
                                 });
                             }); })];
                     case 1:
-                        _a.sent();
+                        result = _a.sent();
+                        console.log("bd", result);
                         return [2 /*return*/, result];
                 }
             });

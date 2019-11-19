@@ -19,11 +19,11 @@ export default class BD {
     static async ModificarProducto(producto : IProducto, nombreViejo : string) {
         let result;
         console.log("Empezo la modificacion del producto :v");
-        await Producto.findOne({nombre: producto.nombre}, async (err : any, productoRepetido : IProducto) => {
+        result = await Producto.findOne({nombre: producto.nombre}).then(async (productoRepetido : IProducto | null) => {
             let result = Resultado.Exito;
-            if (err == null && (productoRepetido == null || producto.nombre === nombreViejo)) { //Si no hay ningun producto con el nombre nuevo
-                await Producto.findOne({nombre: nombreViejo}, (err : any, productoViejo) => {
-                    if (err == null && productoViejo != null) {
+            if (productoRepetido == null || producto.nombre === nombreViejo) { //Si no hay ningun producto con el nombre nuevo
+                await Producto.findOne({nombre: nombreViejo}).then(async () => (productoViejo : IProducto | null) => {
+                    if (productoViejo != null) {
                         productoViejo.nombre = producto.nombre;
                         productoViejo.descripcion = producto.descripcion;
                         productoViejo.imagen = producto.imagen;
@@ -35,13 +35,15 @@ export default class BD {
                         result = Resultado.Error;
                         console.log("Error comun");
                     }
+                    return result;
                 });
             } else {
                 result = Resultado.NombreRepetido;
                 console.log("Error nombre repetido");
-                return result;
             }
+            return result;
         });
+        console.log("bd",result);
         return result;
     }
 
