@@ -46,8 +46,8 @@ export default class ProductoDAO {
         return exito;
     }
 
-    static ModificarProducto(producto : IProducto, nombreViejo : string) : Resultado {
-        let result : Resultado = Resultado.Exito;
+    static ModificarProducto(producto : IProducto, nombreViejo : string) {
+        let result : Promise<any>;
         let exito = true;
         exito = exito && ProductoDAO.Validar(producto.nombre, "string");
         exito = exito && ProductoDAO.Validar(producto.descripcion, "string");
@@ -56,10 +56,11 @@ export default class ProductoDAO {
         exito = exito && ProductoDAO.Validar(producto.stock, "number");
         exito = exito && ProductoDAO.Validar(nombreViejo, "string");
         if (exito) {
-            let result = BD.ModificarProducto(producto, nombreViejo);
-            console.log("dwadw", result);
+            result = BD.ModificarProducto(producto, nombreViejo);
         } else {
-            result = Resultado.Error;
+            result = new Promise(() => {
+                return Resultado.Error;
+            });
         }
         return result;
     }

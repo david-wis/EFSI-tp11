@@ -17,19 +17,29 @@ export default class BD {
     }
 
     static async ModificarProducto(producto : IProducto, nombreViejo : string) {
-        let result : Resultado = Resultado.Exito;
+        let result;
+        console.log("Empezo la modificacion del producto :v");
         await Producto.findOne({nombre: producto.nombre}, async (err : any, productoRepetido : IProducto) => {
-            if (err == null && productoRepetido == null) { //Si no hay ningun producto con el nombre nuevo
+            let result = Resultado.Exito;
+            if (err == null && (productoRepetido == null || producto.nombre === nombreViejo)) { //Si no hay ningun producto con el nombre nuevo
                 await Producto.findOne({nombre: nombreViejo}, (err : any, productoViejo) => {
                     if (err == null && productoViejo != null) {
-                        productoViejo = producto;
+                        productoViejo.nombre = producto.nombre;
+                        productoViejo.descripcion = producto.descripcion;
+                        productoViejo.imagen = producto.imagen;
+                        productoViejo.precio = producto.precio;
+                        productoViejo.stock = producto.stock;
+                        console.log("Guardando producto", productoViejo);
                         productoViejo.save();
                     } else {
                         result = Resultado.Error;
+                        console.log("Error comun");
                     }
                 });
             } else {
                 result = Resultado.NombreRepetido;
+                console.log("Error nombre repetido");
+                return result;
             }
         });
         return result;

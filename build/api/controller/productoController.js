@@ -39,24 +39,26 @@ exports.modificar = function (req, res) {
     producto.imagen = req.query.imagen;
     producto.precio = req.query.precio;
     producto.stock = req.query.stock;
-    var resultado = productoDao_1.default.ModificarProducto(producto, nombreViejo);
-    switch (resultado) {
-        case resultado_1.Resultado.Exito:
-            res.send({ status: "success" });
-            break;
-        case resultado_1.Resultado.Error:
-            res.send({ status: "error", msg: "El dato ingresado no es valido" });
-            break;
-        case resultado_1.Resultado.FotoGrande:
-            res.send({ status: "error", msg: "La foto es demasiado grande" });
-            break;
-        case resultado_1.Resultado.NombreRepetido:
-            res.send({ status: "error", msg: "El nombre ya existe" });
-            break;
-        default:
-            console.log("wtfffff");
-            break;
-    }
+    productoDao_1.default.ModificarProducto(producto, nombreViejo).then(function (resultado) {
+        console.log("2da venida de cristo", resultado);
+        switch (resultado) {
+            case resultado_1.Resultado.Exito:
+                res.send({ status: "success" });
+                break;
+            case resultado_1.Resultado.Error:
+                res.send({ status: "error", msg: "El dato ingresado no es valido" });
+                break;
+            case resultado_1.Resultado.FotoGrande:
+                res.send({ status: "error", msg: "La foto es demasiado grande" });
+                break;
+            case resultado_1.Resultado.NombreRepetido:
+                res.send({ status: "error", msg: "El nombre ya existe" });
+                break;
+            default:
+                console.log("wtfffff");
+                break;
+        }
+    });
 };
 exports.eliminar = function (req, res) {
     var nombre = req.query.nombre;

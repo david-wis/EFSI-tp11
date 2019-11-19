@@ -36,24 +36,26 @@ exports.modificar = (req : any, res : any) => {
     producto.imagen = req.query.imagen; 
     producto.precio = req.query.precio;  
     producto.stock = req.query.stock;
-    let resultado = ProductoDAO.ModificarProducto(producto, nombreViejo)
-    switch(resultado){
-        case Resultado.Exito:
-            res.send({status: "success"});
-            break;
-        case Resultado.Error:
-            res.send({status: "error", msg: "El dato ingresado no es valido"});
-            break;
-        case Resultado.FotoGrande:
-            res.send({status: "error", msg: "La foto es demasiado grande"});
-            break;
-        case Resultado.NombreRepetido:
-            res.send({status: "error", msg: "El nombre ya existe"});
-            break;
-        default:
-            console.log("wtfffff");
-            break;
-    }
+    ProductoDAO.ModificarProducto(producto, nombreViejo).then((resultado) => {
+        console.log("2da venida de cristo", resultado);
+        switch(resultado){
+            case Resultado.Exito:
+                res.send({status: "success"});
+                break;
+            case Resultado.Error:
+                res.send({status: "error", msg: "El dato ingresado no es valido"});
+                break;
+            case Resultado.FotoGrande:
+                res.send({status: "error", msg: "La foto es demasiado grande"});
+                break;
+            case Resultado.NombreRepetido:
+                res.send({status: "error", msg: "El nombre ya existe"});
+                break;
+            default:
+                console.log("wtfffff");
+                break;
+        }
+    });
 }
 
 exports.eliminar = (req : any, res : any) => {

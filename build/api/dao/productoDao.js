@@ -98,7 +98,7 @@ var ProductoDAO = /** @class */ (function () {
         return exito;
     };
     ProductoDAO.ModificarProducto = function (producto, nombreViejo) {
-        var result = resultado_1.Resultado.Exito;
+        var result;
         var exito = true;
         exito = exito && ProductoDAO.Validar(producto.nombre, "string");
         exito = exito && ProductoDAO.Validar(producto.descripcion, "string");
@@ -107,11 +107,12 @@ var ProductoDAO = /** @class */ (function () {
         exito = exito && ProductoDAO.Validar(producto.stock, "number");
         exito = exito && ProductoDAO.Validar(nombreViejo, "string");
         if (exito) {
-            var result_1 = bd_1.default.ModificarProducto(producto, nombreViejo);
-            console.log("dwadw", result_1);
+            result = bd_1.default.ModificarProducto(producto, nombreViejo);
         }
         else {
-            result = resultado_1.Resultado.Error;
+            result = new Promise(function () {
+                return resultado_1.Resultado.Error;
+            });
         }
         return result;
     };
