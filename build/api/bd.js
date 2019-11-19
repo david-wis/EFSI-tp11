@@ -69,15 +69,43 @@ var BD = /** @class */ (function () {
         });
     };
     BD.ModificarProducto = function (producto, nombreViejo) {
-        var result = resultado_1.Resultado.Exito;
-        producto_1.default.find({ nombre: producto.nombre }, function (err, productoRepetido) {
-            if (!err && productoRepetido == null) {
-                var productoViejo_1 = producto_1.default.find({ nombre: nombreViejo }, function (err) {
-                    productoViejo_1.update(producto);
-                });
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var result;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        result = resultado_1.Resultado.Exito;
+                        return [4 /*yield*/, producto_1.default.findOne({ nombre: producto.nombre }, function (err, productoRepetido) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            if (!(err == null && productoRepetido == null)) return [3 /*break*/, 2];
+                                            return [4 /*yield*/, producto_1.default.findOne({ nombre: nombreViejo }, function (err, productoViejo) {
+                                                    if (err == null && productoViejo != null) {
+                                                        productoViejo = producto;
+                                                        productoViejo.save();
+                                                    }
+                                                    else {
+                                                        result = resultado_1.Resultado.Error;
+                                                    }
+                                                })];
+                                        case 1:
+                                            _a.sent();
+                                            return [3 /*break*/, 3];
+                                        case 2:
+                                            result = resultado_1.Resultado.NombreRepetido;
+                                            _a.label = 3;
+                                        case 3: return [2 /*return*/];
+                                    }
+                                });
+                            }); })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, result];
+                }
+            });
         });
-        return result;
     };
     BD.EliminarProducto = function (nombre) {
         producto_1.default.deleteOne({ nombre: nombre }, function (err) {
@@ -85,12 +113,17 @@ var BD = /** @class */ (function () {
         });
     };
     BD.ObtenerProducto = function (nombre) {
-        var producto = null;
-        producto_1.default.findOne({ nombre: nombre }, function (err, prod) {
-            producto = prod;
-            console.log(err);
+        return __awaiter(this, void 0, void 0, function () {
+            var producto;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, producto_1.default.findOne({ nombre: nombre })];
+                    case 1:
+                        producto = _a.sent();
+                        return [2 /*return*/, producto];
+                }
+            });
         });
-        return producto;
     };
     BD.ObtenerTodos = function () {
         return __awaiter(this, void 0, void 0, function () {

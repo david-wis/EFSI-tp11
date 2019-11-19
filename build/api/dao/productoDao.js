@@ -79,7 +79,6 @@ var ProductoDAO = /** @class */ (function () {
         switch (tipoEsperado) {
             case "number":
                 if (typeof valor === "number") {
-                    console.log("se esperaba un numero y es un numero");
                     if (valor >= 0) {
                         exito = true;
                     }
@@ -108,12 +107,8 @@ var ProductoDAO = /** @class */ (function () {
         exito = exito && ProductoDAO.Validar(producto.stock, "number");
         exito = exito && ProductoDAO.Validar(nombreViejo, "string");
         if (exito) {
-            if (bd_1.default.ModificarProducto(producto, nombreViejo)) {
-                result = resultado_1.Resultado.Exito;
-            }
-            else {
-                result = resultado_1.Resultado.NombreRepetido;
-            }
+            var result_1 = bd_1.default.ModificarProducto(producto, nombreViejo);
+            console.log("dwadw", result_1);
         }
         else {
             result = resultado_1.Resultado.Error;
@@ -129,11 +124,11 @@ var ProductoDAO = /** @class */ (function () {
         return bExito;
     };
     ProductoDAO.ObtenerProducto = function (nombre) {
-        var producto = null;
+        var promesaProducto = null;
         if (ProductoDAO.Validar(nombre, "string")) {
-            producto = bd_1.default.ObtenerProducto(nombre);
+            promesaProducto = bd_1.default.ObtenerProducto(nombre);
         }
-        return producto;
+        return promesaProducto;
     };
     ProductoDAO.ObtenerTodos = function () {
         //let productos : IProducto[] = [];

@@ -27,7 +27,6 @@ export default class ProductoDAO {
         switch (tipoEsperado) {
             case "number":
                 if (typeof valor === "number"){
-                    console.log("se esperaba un numero y es un numero");
                     if (valor >= 0) {
                         exito = true;
                     }
@@ -57,11 +56,8 @@ export default class ProductoDAO {
         exito = exito && ProductoDAO.Validar(producto.stock, "number");
         exito = exito && ProductoDAO.Validar(nombreViejo, "string");
         if (exito) {
-            if (BD.ModificarProducto(producto, nombreViejo)) {
-                result = Resultado.Exito;
-            } else {
-                result = Resultado.NombreRepetido;
-            }
+            let result = BD.ModificarProducto(producto, nombreViejo);
+            console.log("dwadw", result);
         } else {
             result = Resultado.Error;
         }
@@ -77,12 +73,12 @@ export default class ProductoDAO {
         return bExito;
     }
 
-    static ObtenerProducto(nombre : string) : IProducto | null {
-        let producto : IProducto | null = null;
+    static ObtenerProducto(nombre : string) {
+        let promesaProducto = null;
         if (ProductoDAO.Validar(nombre, "string")) {
-            producto = BD.ObtenerProducto(nombre);
+            promesaProducto = BD.ObtenerProducto(nombre);
         }
-        return producto;
+        return promesaProducto;
     }
 
     static ObtenerTodos() {

@@ -15,7 +15,6 @@ exports.agregar = function (req, res) {
     producto.precio = req.query.precio;
     producto.stock = req.query.stock;
     productoDao_1.default.AgregarProducto(producto).then(function (resultado) {
-        console.log(resultado);
         switch (resultado) {
             case resultado_1.Resultado.Exito:
                 res.send({ status: "success" });
@@ -71,7 +70,16 @@ exports.obtenerTodos = function (req, res) {
 exports.obtenerUno = function (req, res) {
     var nombre = req.query.nombre;
     var producto = productoDao_1.default.ObtenerProducto(nombre);
-    res.send(producto);
+    if (producto != null) {
+        producto.then(function (producto) {
+            if (producto != null) {
+                res.send(producto);
+            }
+            else {
+                res.send({ status: "error", msg: "El producto no existe" });
+            }
+        });
+    }
 };
 exports.obtenerImgDefault = function (req, res) {
     fs_1.default.readFile('api/content/img_muestra.jpg', function (err, data) {

@@ -11,7 +11,6 @@ exports.agregar = (req : any, res : any) => {
     producto.precio = req.query.precio;  
     producto.stock = req.query.stock; 
     ProductoDAO.AgregarProducto(producto).then((resultado : Resultado) => {
-        console.log(resultado);
         switch(resultado){
             case Resultado.Exito:
                 res.send({status: "success"});
@@ -37,7 +36,7 @@ exports.modificar = (req : any, res : any) => {
     producto.imagen = req.query.imagen; 
     producto.precio = req.query.precio;  
     producto.stock = req.query.stock;
-    let resultado : Resultado = ProductoDAO.ModificarProducto(producto, nombreViejo);
+    let resultado = ProductoDAO.ModificarProducto(producto, nombreViejo)
     switch(resultado){
         case Resultado.Exito:
             res.send({status: "success"});
@@ -70,8 +69,16 @@ exports.obtenerTodos = (req : any, res : any) => {
 
 exports.obtenerUno = (req : any, res : any) => {
     let nombre : string = req.query.nombre;
-    let producto : IProducto | null = ProductoDAO.ObtenerProducto(nombre);
-    res.send(producto);
+    let producto = ProductoDAO.ObtenerProducto(nombre);
+    if (producto != null) {
+        producto.then((producto) => {
+            if (producto != null) {
+                res.send(producto);
+            } else {
+                res.send({status: "error", msg: "El producto no existe"});
+            }
+        });
+    }
 }
 
 exports.obtenerImgDefault = (req : any, res : any) => {

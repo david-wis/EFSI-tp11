@@ -16,13 +16,20 @@ export default class BD {
         return result;
     }
 
-    static ModificarProducto(producto : IProducto, nombreViejo : string) : Resultado {
+    static async ModificarProducto(producto : IProducto, nombreViejo : string) {
         let result : Resultado = Resultado.Exito;
-        Producto.find({nombre: producto.nombre}, (err : any, productoRepetido : IProducto) => {
-            if (!err && productoRepetido == null) {
-                let productoViejo = Producto.find({nombre: nombreViejo}, (err : any) => {
-                    productoViejo.update(producto);
+        await Producto.findOne({nombre: producto.nombre}, async (err : any, productoRepetido : IProducto) => {
+            if (err == null && productoRepetido == null) { //Si no hay ningun producto con el nombre nuevo
+                await Producto.findOne({nombre: nombreViejo}, (err : any, productoViejo) => {
+                    if (err == null && productoViejo != null) {
+                        productoViejo = producto;
+                        productoViejo.save();
+                    } else {
+                        result = Resultado.Error;
+                    }
                 });
+            } else {
+                result = Resultado.NombreRepetido;
             }
         });
         return result;
@@ -34,12 +41,9 @@ export default class BD {
         });
     }
 
-    static ObtenerProducto(nombre : string) : IProducto | null {
-        let producto : IProducto | null = null;
-        Producto.findOne({nombre: nombre}, (err : any, prod : IProducto) => {
-            producto = prod;
-            console.log(err); 
-        });
+    static async ObtenerProducto(nombre : string) {
+        let producto : IProducto | null;
+        producto = await Producto.findOne({nombre: nombre});
         return producto;
     }
 
