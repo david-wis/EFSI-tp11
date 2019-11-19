@@ -20,30 +20,27 @@ export default class BD {
         let result;
         console.log("Empezo la modificacion del producto :v");
         result = await Producto.findOne({nombre: producto.nombre}).then(async (productoRepetido : IProducto | null) => {
-            let result = Resultado.Exito;
+            let result;
             if (productoRepetido == null || producto.nombre === nombreViejo) { //Si no hay ningun producto con el nombre nuevo
-                await Producto.findOne({nombre: nombreViejo}).then(async () => (productoViejo : IProducto | null) => {
+                result = await Producto.findOne({nombre: nombreViejo}).then(async (productoViejo : IProducto | null) => {
                     if (productoViejo != null) {
                         productoViejo.nombre = producto.nombre;
                         productoViejo.descripcion = producto.descripcion;
                         productoViejo.imagen = producto.imagen;
                         productoViejo.precio = producto.precio;
                         productoViejo.stock = producto.stock;
-                        console.log("Guardando producto", productoViejo);
                         productoViejo.save();
+                        result = Resultado.Exito;
                     } else {
                         result = Resultado.Error;
-                        console.log("Error comun");
                     }
                     return result;
                 });
             } else {
                 result = Resultado.NombreRepetido;
-                console.log("Error nombre repetido");
             }
             return result;
         });
-        console.log("bd",result);
         return result;
     }
 

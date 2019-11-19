@@ -40,7 +40,6 @@ exports.modificar = function (req, res) {
     producto.precio = req.query.precio;
     producto.stock = req.query.stock;
     productoDao_1.default.ModificarProducto(producto, nombreViejo).then(function (resultado) {
-        console.log("2da venida de cristo", resultado);
         switch (resultado) {
             case resultado_1.Resultado.Exito:
                 res.send({ status: "success" });

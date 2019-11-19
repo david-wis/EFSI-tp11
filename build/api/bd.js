@@ -82,34 +82,29 @@ var BD = /** @class */ (function () {
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
                                         case 0:
-                                            result = resultado_1.Resultado.Exito;
                                             if (!(productoRepetido == null || producto.nombre === nombreViejo)) return [3 /*break*/, 2];
-                                            return [4 /*yield*/, producto_1.default.findOne({ nombre: nombreViejo }).then(function () { return __awaiter(_this, void 0, void 0, function () {
+                                            return [4 /*yield*/, producto_1.default.findOne({ nombre: nombreViejo }).then(function (productoViejo) { return __awaiter(_this, void 0, void 0, function () {
                                                     return __generator(this, function (_a) {
-                                                        return [2 /*return*/, function (productoViejo) {
-                                                                if (productoViejo != null) {
-                                                                    productoViejo.nombre = producto.nombre;
-                                                                    productoViejo.descripcion = producto.descripcion;
-                                                                    productoViejo.imagen = producto.imagen;
-                                                                    productoViejo.precio = producto.precio;
-                                                                    productoViejo.stock = producto.stock;
-                                                                    console.log("Guardando producto", productoViejo);
-                                                                    productoViejo.save();
-                                                                }
-                                                                else {
-                                                                    result = resultado_1.Resultado.Error;
-                                                                    console.log("Error comun");
-                                                                }
-                                                                return result;
-                                                            }];
+                                                        if (productoViejo != null) {
+                                                            productoViejo.nombre = producto.nombre;
+                                                            productoViejo.descripcion = producto.descripcion;
+                                                            productoViejo.imagen = producto.imagen;
+                                                            productoViejo.precio = producto.precio;
+                                                            productoViejo.stock = producto.stock;
+                                                            productoViejo.save();
+                                                            result = resultado_1.Resultado.Exito;
+                                                        }
+                                                        else {
+                                                            result = resultado_1.Resultado.Error;
+                                                        }
+                                                        return [2 /*return*/, result];
                                                     });
                                                 }); })];
                                         case 1:
-                                            _a.sent();
+                                            result = _a.sent();
                                             return [3 /*break*/, 3];
                                         case 2:
                                             result = resultado_1.Resultado.NombreRepetido;
-                                            console.log("Error nombre repetido");
                                             _a.label = 3;
                                         case 3: return [2 /*return*/, result];
                                     }
@@ -117,7 +112,6 @@ var BD = /** @class */ (function () {
                             }); })];
                     case 1:
                         result = _a.sent();
-                        console.log("bd", result);
                         return [2 /*return*/, result];
                 }
             });
