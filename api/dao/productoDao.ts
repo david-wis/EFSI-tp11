@@ -13,11 +13,14 @@ export default class ProductoDAO {
         exito = exito && ProductoDAO.Validar(producto.stock, "number");
         if (exito) {
             //producto.convertirImgABlob();
-            await BD.AgregarProducto(producto).then(ok => {
-                result = ok? Resultado.Exito : Resultado.NombreRepetido;
+            result = await BD.AgregarProducto(producto).then(ok => {
+                return ok? Resultado.Exito : Resultado.NombreRepetido;
             });
         } else {
-            result = Resultado.Error;
+            const res = async () => {
+                return Resultado.Error;
+            }
+            result = await res();
         }
         return result;
     }
@@ -46,8 +49,8 @@ export default class ProductoDAO {
         return exito;
     }
 
-    static ModificarProducto(producto : IProducto, nombreViejo : string) {
-        let result : Promise<any>;
+    static async ModificarProducto(producto : IProducto, nombreViejo : string) {
+        let result;
         let exito = true;
         exito = exito && ProductoDAO.Validar(producto.nombre, "string");
         exito = exito && ProductoDAO.Validar(producto.descripcion, "string");
@@ -56,11 +59,12 @@ export default class ProductoDAO {
         exito = exito && ProductoDAO.Validar(producto.stock, "number");
         exito = exito && ProductoDAO.Validar(nombreViejo, "string");
         if (exito) {
-            result = BD.ModificarProducto(producto, nombreViejo);
+            result = await BD.ModificarProducto(producto, nombreViejo);
         } else {
-            result = new Promise(() => {
+            const res = async () => {
                 return Resultado.Error;
-            });
+            }
+            result = await res();
         }
         return result;
     }

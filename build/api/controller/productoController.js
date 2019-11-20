@@ -62,6 +62,7 @@ exports.modificar = function (req, res) {
 exports.eliminar = function (req, res) {
     var nombre = req.query.nombre;
     productoDao_1.default.EliminarProducto(nombre);
+    res.send({ status: "success" });
 };
 exports.obtenerTodos = function (req, res) {
     productoDao_1.default.ObtenerTodos().then(function (productos) {

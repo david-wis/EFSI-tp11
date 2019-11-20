@@ -46,7 +46,8 @@ var ProductoDAO = /** @class */ (function () {
     }
     ProductoDAO.AgregarProducto = function (producto) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, exito;
+            var result, exito, res;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -58,18 +59,24 @@ var ProductoDAO = /** @class */ (function () {
                         exito = exito && ProductoDAO.Validar(producto.precio, "number");
                         exito = exito && ProductoDAO.Validar(producto.stock, "number");
                         if (!exito) return [3 /*break*/, 2];
-                        //producto.convertirImgABlob();
                         return [4 /*yield*/, bd_1.default.AgregarProducto(producto).then(function (ok) {
-                                result = ok ? resultado_1.Resultado.Exito : resultado_1.Resultado.NombreRepetido;
+                                return ok ? resultado_1.Resultado.Exito : resultado_1.Resultado.NombreRepetido;
                             })];
                     case 1:
                         //producto.convertirImgABlob();
-                        _a.sent();
-                        return [3 /*break*/, 3];
+                        result = _a.sent();
+                        return [3 /*break*/, 4];
                     case 2:
-                        result = resultado_1.Resultado.Error;
-                        _a.label = 3;
-                    case 3: return [2 /*return*/, result];
+                        res = function () { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                return [2 /*return*/, resultado_1.Resultado.Error];
+                            });
+                        }); };
+                        return [4 /*yield*/, res()];
+                    case 3:
+                        result = _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/, result];
                 }
             });
         });
@@ -98,23 +105,38 @@ var ProductoDAO = /** @class */ (function () {
         return exito;
     };
     ProductoDAO.ModificarProducto = function (producto, nombreViejo) {
-        var result;
-        var exito = true;
-        exito = exito && ProductoDAO.Validar(producto.nombre, "string");
-        exito = exito && ProductoDAO.Validar(producto.descripcion, "string");
-        //exito = BD.Validar(producto.imagen);
-        exito = exito && ProductoDAO.Validar(producto.precio, "number");
-        exito = exito && ProductoDAO.Validar(producto.stock, "number");
-        exito = exito && ProductoDAO.Validar(nombreViejo, "string");
-        if (exito) {
-            result = bd_1.default.ModificarProducto(producto, nombreViejo);
-        }
-        else {
-            result = new Promise(function () {
-                return resultado_1.Resultado.Error;
+        return __awaiter(this, void 0, void 0, function () {
+            var result, exito, res;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        exito = true;
+                        exito = exito && ProductoDAO.Validar(producto.nombre, "string");
+                        exito = exito && ProductoDAO.Validar(producto.descripcion, "string");
+                        //exito = BD.Validar(producto.imagen);
+                        exito = exito && ProductoDAO.Validar(producto.precio, "number");
+                        exito = exito && ProductoDAO.Validar(producto.stock, "number");
+                        exito = exito && ProductoDAO.Validar(nombreViejo, "string");
+                        if (!exito) return [3 /*break*/, 2];
+                        return [4 /*yield*/, bd_1.default.ModificarProducto(producto, nombreViejo)];
+                    case 1:
+                        result = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 2:
+                        res = function () { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                return [2 /*return*/, resultado_1.Resultado.Error];
+                            });
+                        }); };
+                        return [4 /*yield*/, res()];
+                    case 3:
+                        result = _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/, result];
+                }
             });
-        }
-        return result;
+        });
     };
     ProductoDAO.EliminarProducto = function (nombre) {
         var bExito = false;

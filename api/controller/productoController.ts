@@ -60,6 +60,7 @@ exports.modificar = (req : any, res : any) => {
 exports.eliminar = (req : any, res : any) => {
     let nombre = req.query.nombre;
     ProductoDAO.EliminarProducto(nombre);
+    res.send({status: "success"});
 }
 
 exports.obtenerTodos = (req : any, res : any) => {
