@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const URL = "http://localhost:3000";
+export const URL = "http://localhost:3001";
 
 export const ImgUploader = ({img64, handleImageChange}) => {
     return (
